@@ -30,7 +30,7 @@ public class Asteroid : MonoBehaviour
         {
             Instantiate(_explosion, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
-            _spawnManager.StartSpawning();
+            _spawnManager.EndWave();
             Destroy(this.gameObject, 0.25f);
         }
     }

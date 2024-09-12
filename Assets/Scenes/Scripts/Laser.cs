@@ -5,17 +5,18 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     private float _speed = 8f;
-    private bool _isEnemyLaser = false;
+    public bool _isEnemyLaser = false;
+    private bool _backFire = false;
 
 
     // Update is called once per frame
     void Update()
     {
-        if(_isEnemyLaser == false)
+        if (_isEnemyLaser == false || _backFire == true)
         {
             MoveUp();
         }
-        else
+        else if (_isEnemyLaser == true)
         {
             MoveDown();
         }
@@ -33,6 +34,7 @@ public class Laser : MonoBehaviour
             }
         }
     }
+
     void MoveDown()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -46,18 +48,43 @@ public class Laser : MonoBehaviour
             }
         }
     }
+
     public void AssignEnemyLaser()
     {
         _isEnemyLaser = true;
     }
+
+    public void BackFireLaser()
+    {
+        _isEnemyLaser = true;
+        _backFire = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Player" && _isEnemyLaser == true)
+        if(other.tag == "Player" && _isEnemyLaser == true || _backFire == true)
         {
             Player player = other.GetComponent<Player>();
             if(player != null)
             {
                 player.Damage();
+            }
+        }
+        else if (other.tag == "Enemy")
+        {  
+            Enemy enemy = other.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                ;
+            }            
+        }
+
+        if(other.tag == "Collectable" && _isEnemyLaser == true)
+        {
+            Powerup powerup = other.transform.GetComponent<Powerup>();
+            if(powerup != null)
+            {
+                Destroy(other.gameObject);
             }
         }
     }

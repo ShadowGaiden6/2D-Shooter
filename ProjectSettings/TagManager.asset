@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Laser
+  - Mega_Laser
+  - Collectable
+  - Boss
   layers:
   - Default
   - TransparentFX
