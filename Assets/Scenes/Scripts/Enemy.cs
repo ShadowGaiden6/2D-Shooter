@@ -273,6 +273,7 @@ public class Enemy : MonoBehaviour
         {
             shieldLife -= 1;
             Destroy(other.gameObject);
+            _shieldsActive = false;
             return;
         }
         else if (other.tag == "Laser" && _shieldsActive == false)

@@ -84,7 +84,7 @@ public class UI_Manager : MonoBehaviour
     public void UpdateLives(int currentLives)
     {
         _LivesImage.sprite = _livesSprites[currentLives];
-        if(currentLives == 0)
+        if(currentLives <= 0)
         {
             GameOverSequence();
         }

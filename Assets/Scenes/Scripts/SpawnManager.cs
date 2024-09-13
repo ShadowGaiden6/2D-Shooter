@@ -57,6 +57,10 @@ public class SpawnManager : MonoBehaviour
             StartCoroutine(SpawnMegaLaserRoutine());
             StartCoroutine(SpawnNegativePowerup());
             StartCoroutine(BossDeathRoutine());
+            if (_bossPrefab == null)
+            {
+                StartCoroutine(BossDeathRoutine());
+            }
         }
         else
         {
@@ -131,11 +135,9 @@ public class SpawnManager : MonoBehaviour
     }
     IEnumerator BossDeathRoutine()
     {
-        if (_bossPrefab == null)
-        {
-            yield return new WaitForSeconds(1.0f);
-            EndWave();
-        }
+        yield return new WaitForSeconds(1.0f);
+        EndWave();
+      
     }
 
     IEnumerator SpawnPowerupRoutine() //Powerup Spawner
