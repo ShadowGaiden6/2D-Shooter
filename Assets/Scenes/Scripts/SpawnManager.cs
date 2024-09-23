@@ -29,6 +29,7 @@ public class SpawnManager : MonoBehaviour
     public Enemy _enemy;
     [SerializeField]
     private GameObject _bossPrefab;
+    public int _bossRemaining = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -39,10 +40,17 @@ public class SpawnManager : MonoBehaviour
     }
     private void Update()
     {
-        if(_enemyContainer.transform.childCount == 0 && _startWave == true)
+        if (_enemyContainer.transform.childCount == 0 && _startWave == true)
         {
             _enemiesRemaining = 0;
             StopCoroutine(SpawnEnemyRoutine());
+            EndWave();
+        }
+        if(_currentWave == 4 && _bossRemaining == 0)
+        {
+            _enemiesRemaining = 0;
+            _enemiesToSpawn = 30;
+            StopCoroutine(SpawnBossRoutine());
             EndWave();
         }
     }
@@ -50,17 +58,13 @@ public class SpawnManager : MonoBehaviour
     {
         if (_currentWave == 4)
         {
+            _bossRemaining += 1;
             StartCoroutine(SpawnBossRoutine());
             StartCoroutine(SpawnPowerupRoutine());
             StartCoroutine(SpawnAmmoRoutine());
             StartCoroutine(SpawnHealthRoutine());
             StartCoroutine(SpawnMegaLaserRoutine());
             StartCoroutine(SpawnNegativePowerup());
-            StartCoroutine(BossDeathRoutine());
-            if (_bossPrefab == null)
-            {
-                StartCoroutine(BossDeathRoutine());
-            }
         }
         else
         {
@@ -78,7 +82,7 @@ public class SpawnManager : MonoBehaviour
     public void EndWave()
     {
         _currentWave += 1;
-        _enemiesToSpawn += 15;
+        _enemiesToSpawn += 10;
         new WaitForSeconds(3.0f);
         StartWave();
     }
@@ -126,18 +130,12 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnBossRoutine()
     {
-        if (_currentWave == 4)
+        if (_bossRemaining == 1)
         {
             yield return new WaitForSeconds(1.5f);
             Vector3 posToSpawn = new Vector3(0, 7f, 0);
             GameObject newEnemy = Instantiate(_bossPrefab, posToSpawn, Quaternion.identity);
         }
-    }
-    IEnumerator BossDeathRoutine()
-    {
-        yield return new WaitForSeconds(1.0f);
-        EndWave();
-      
     }
 
     IEnumerator SpawnPowerupRoutine() //Powerup Spawner

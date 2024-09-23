@@ -71,12 +71,12 @@ public class Powerup : MonoBehaviour
             Destroy(this.gameObject);
         }
         
-        if (other.tag == "Enemy")
+        if (other.tag == "Enemy") //Makes it so nothing happens when the enemies collide with the powerups//
         {
             Enemy enemy = other.transform.GetComponent<Enemy>();
             if (enemy != null)
             {
-                ;
+                return;
             }
         }
     }

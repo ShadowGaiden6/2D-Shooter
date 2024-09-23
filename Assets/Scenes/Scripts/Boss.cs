@@ -33,9 +33,12 @@ public class Boss : MonoBehaviour
     private float _speed = 0.25f;
     private float _canMegaFire = -1;
     private bool _isBossDead = false;
+    private SpawnManager _spawnManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _target = GameObject.FindGameObjectWithTag("Player");
         _player = GameObject.Find("Player").GetComponent<Player>();
         _canFire = Time.time + 2f;
@@ -195,6 +198,7 @@ public class Boss : MonoBehaviour
     {
         if(_life == 0 && _isBossDead == true)
         {
+            _player.AddScore(250);
             _speed = 0f;
             _explosion1.SetActive(true);
             yield return new WaitForSeconds(1f);
@@ -206,6 +210,7 @@ public class Boss : MonoBehaviour
             yield return new WaitForSeconds(1f);
             _explosion5.SetActive(true);
             yield return new WaitForSeconds(1f);
+            _spawnManager._bossRemaining -= 1;
             Destroy(this.gameObject);
         }
     }

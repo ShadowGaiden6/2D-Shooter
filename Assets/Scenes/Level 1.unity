@@ -1080,7 +1080,7 @@ MonoBehaviour:
     type: 3}
   _megaLaserCollectable: {fileID: 3672287915607412779, guid: 17a7e5152834e5e45aa3f3498e4ac44f,
     type: 3}
-  _currentWave: 3
+  _currentWave: 0
   _enemiesToSpawn: 0
   _enemiesRemaining: 0
   _startWave: 0
@@ -1089,6 +1089,7 @@ MonoBehaviour:
   _enemy: {fileID: 7104330855525764442, guid: 7834dd6ae46c2024fb7b80c19cab2f50, type: 3}
   _bossPrefab: {fileID: 3477264749805609766, guid: a5ddfebb9b31b6f40bc68bd96a890ddd,
     type: 3}
+  _bossRemaining: 0
 --- !u!4 &1007908757
 Transform:
   m_ObjectHideFlags: 0

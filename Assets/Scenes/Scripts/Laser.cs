@@ -70,16 +70,16 @@ public class Laser : MonoBehaviour
                 player.Damage();
             }
         }
-        else if (other.tag == "Enemy")
-        {  
-            Enemy enemy = other.transform.GetComponent<Enemy>();
+        else if (other.tag == "Enemy" && _isEnemyLaser == true)
+        {
+            Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                ;
-            }            
+                enemy.FriendlyFire();
+            }
         }
 
-        if(other.tag == "Collectable" && _isEnemyLaser == true)
+        if (other.tag == "Collectable" && _isEnemyLaser == true)
         {
             Powerup powerup = other.transform.GetComponent<Powerup>();
             if(powerup != null)

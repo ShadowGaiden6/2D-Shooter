@@ -83,11 +83,12 @@ public class UI_Manager : MonoBehaviour
 
     public void UpdateLives(int currentLives)
     {
-        _LivesImage.sprite = _livesSprites[currentLives];
-        if(currentLives <= 0)
+        if (currentLives <= 0)
         {
+            currentLives = 0;
             GameOverSequence();
         }
+        _LivesImage.sprite = _livesSprites[currentLives];
     }
 
     public void UpdateAmmo(int currentAmmoCount)

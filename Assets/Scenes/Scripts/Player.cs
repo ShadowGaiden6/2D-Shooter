@@ -96,13 +96,13 @@ public class Player : MonoBehaviour
                 _audioSource2.Play();
                 return;
             }
-            else if(_fireLockActive == true)
+            else if(_fireLockActive == true) //Negative powerup that prevents firing
             {
                 return;
             }
-            else if(_isMegaLaserActive == true)
+            else if(_isMegaLaserActive == true) //Keeps regular lasers from firing whilst MegaLaser is active
             {
-                ;
+                return;
             }
             FireLaser();
         }

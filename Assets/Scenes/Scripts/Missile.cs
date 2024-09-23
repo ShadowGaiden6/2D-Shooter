@@ -9,45 +9,66 @@ public class Missile : MonoBehaviour
     public Vector3 direction;
     private Quaternion rotatetoTarget;
     private float rotationSpeed = 3.0f;
+    float distance;
+    float nearestDistance = 1000000f;
+    public GameObject[] AllObjects;
+    public GameObject NearestObject;
     // Start is called before the first frame update
     void Start()
     {
-        
-        _target = GameObject.FindGameObjectWithTag("Enemy");
-
-        if (_target == null)
+        AllObjects = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < AllObjects.Length; i++)
         {
-            _target = GameObject.FindGameObjectWithTag("Boss");
+            distance = Vector3.Distance(this.transform.position, AllObjects[i].transform.position);
+            if (distance < nearestDistance)
+            {
+                NearestObject = AllObjects[i];
+                nearestDistance = distance;
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_target == null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            CalculateMovement();
-        }
+        CalculateMovement();
     }
 
     void CalculateMovement()
     {
-        direction = (_target.transform.position - transform.position).normalized;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rotatetoTarget = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotatetoTarget, Time.deltaTime * rotationSpeed);
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
-
-        if (transform.position.y >= 6)
+        _target = NearestObject;
+        if (_target != null)
         {
-            Destroy(this.gameObject);
-            if (transform.parent != null)
+            direction = (_target.transform.position - transform.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            rotatetoTarget = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotatetoTarget, Time.deltaTime * rotationSpeed);
+            transform.Translate(Vector3.up * _speed * Time.deltaTime);
+            if (transform.position.y >= 6)
             {
-                Destroy(transform.parent.gameObject);
+                Destroy(this.gameObject);
+                if (transform.parent != null)
+                {
+                    Destroy(transform.parent.gameObject);
+                }
+            }
+        }
+        else
+        {
+            CalculateDistance();
+        }
+    }
+
+    void CalculateDistance()
+    {
+        AllObjects = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < AllObjects.Length; i++)
+        {
+            distance = Vector3.Distance(this.transform.position, AllObjects[i].transform.position);
+            if (distance < nearestDistance)
+            {
+                NearestObject = AllObjects[i];
+                nearestDistance = distance;
             }
         }
     }
